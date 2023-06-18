@@ -1,0 +1,117 @@
+// question name : Number of Coins
+// @ GFG
+
+// ----------------------------------------------------------RECURSION----------------------------------------------------------
+
+class Solution{
+    public:
+    int f(int coins[], int ind, int target){
+        
+        if(ind==0){
+            if(target%coins[0]==0)              return target/coins[0];
+            else                                return 1e9;
+        }
+        
+        int notTake = 0 + f(coins,ind-1,target);
+        int take = 1e9;
+        
+        if(coins[ind] <= target)
+            take  = 1 + f(coins,ind,target-coins[ind]);
+        
+        return  min(notTake,take);
+    }
+
+	public:
+	int minCoins(int coins[], int M, int V) 
+	{ 
+	    int n = M;
+	    int target = V;
+	    int ans =  f(coins,n-1,target);
+	    
+	    if(ans >= 1e9)
+	        return -1;
+	        
+	    return ans;
+	    
+	} 
+};
+
+
+//----------------------------------------------------MEMOIZATION----------------------------------------------------------------
+
+class Solution{
+    public:
+    int f(int coins[], int ind, int target, vector<vector<int>> &dp){
+        
+        if(ind==0){
+            if(target%coins[0]==0)              return target/coins[0];
+            else                                return 1e9;
+        }
+        
+        if(dp[ind][target]!= -1)                return dp[ind][target]; 
+        
+        int notTake = 0 + f(coins,ind-1,target,dp);
+        int take = 1e9;
+        
+        if(coins[ind] <= target)
+            take  = 1 + f(coins,ind,target-coins[ind],dp);
+        
+        return  dp[ind][target] =  min(notTake,take);
+    }
+
+	public:
+	int minCoins(int coins[], int M, int V) 
+	{ 
+	    int n = M;
+	    int target = V;
+	    vector<vector<int>> dp( n, vector<int> (target+1,-1));
+	    int ans =  f(coins,n-1,target,dp);
+	    
+	    if(ans >= 1e9)
+	        return -1;
+	        
+	    return ans;
+	    
+	} 
+	  
+};
+
+//-------------------------------------------TABULATION---------------------------------------------------------
+
+class Solution{
+	public:
+	int minCoins(int coins[], int M, int V) 
+	{ 
+	    int n = M;
+	    int target = V;
+	    vector<vector<int>> dp( n, vector<int> (target+1,0));
+	    
+	    for(int T=0; T<=target; T++){
+	        if(T%coins[0]==0)               dp[0][T] = T/coins[0];
+	        else                            dp[0][T] = 1e9;
+	    }
+	    
+	    for(int ind = 1; ind<n; ind++){
+	        for(int T=0; T<=target ;T++){
+	            
+                int notTake = 0 + dp[ind-1][T];
+                int take = 1e9;
+                if(coins[ind] <= T)
+                    take  = 1 + dp[ind][T-coins[ind]]; 
+                
+                dp[ind][T] =  min(notTake,take);	       
+	            
+	        }
+	    }
+	    
+	    int ans = dp[n-1][target];
+	    
+	    if(ans >= 1e9)
+	        return -1;
+	        
+	    return ans;
+	    
+	} 
+	
+};
+
