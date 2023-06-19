@@ -10,7 +10,7 @@ class Solution{
             
             if( ind ==0)
             {
-                if( sum==0 && arr[0]==sum )         return 2;
+                if( sum==0 && arr[0]==0 )         return 2;
                 if( arr[0]==sum || sum ==0 )        return 1;
                 else                                return 0;
             }
@@ -40,7 +40,7 @@ class Solution{
             
             if( ind ==0)
             {
-                if( sum==0 && arr[0]==sum )         return 2;
+                if( sum==0 && arr[0]==0 )         return 2;
                 if( arr[0]==sum || sum ==0 )        return 1;
                 else                                return 0;
             }
