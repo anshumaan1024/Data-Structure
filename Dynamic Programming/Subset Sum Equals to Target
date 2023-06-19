@@ -1,0 +1,29 @@
+// DP 14 : Subset Sum Equals to Target
+// @GFG
+// question name : Subset Sum Problem
+
+//------------------------------------------------RECURSION-----------------------------------------------------
+
+class Solution{ 
+public:
+    bool f(int ind, int sum , vector<int> &arr){
+        
+        if(sum==0)                  return true;
+        if(ind==0)                  return (arr[0]==sum);
+        
+        bool take = false;
+        if( arr[ind] <= sum )
+            take = f(ind-1,sum-arr[ind],arr);
+        
+        bool notTake = f(ind-1,sum,arr);
+        
+        return take || notTake;
+    }
+    
+public:
+    bool isSubsetSum(vector<int>arr, int sum){
+        
+        int n = arr.size();
+        return f(n-1,sum,arr);
+    }
+};
