@@ -1,0 +1,88 @@
+// DP 23 : Unbounded Knapsack
+// @GFG
+// question name : Knapsack with Duplicate Items
+
+//------------------------------------------------------RECURSION---------------------------------------------------------------
+
+class Solution{
+public:
+    int f(int ind, int W, int wt[], int val[]){
+        
+        if(ind==0){
+            return (W/wt[0])*val[0];
+        }
+        
+        int notTake = 0 + f(ind-1,W,wt,val);
+        int take = INT_MIN;
+            
+        if(wt[ind]<=W)
+            take = val[ind] + f(ind,W-wt[ind],wt,val);
+        
+        return max(notTake, take);
+    }
+    
+public:
+    int knapSack(int N, int W, int val[], int wt[])
+    {
+        return f(N-1,W,wt,val);
+    }
+};
+
+//----------------------------------------------------MEMOIZATION------------------------------------------------------------------
+
+class Solution{
+public:
+    int f(int ind, int W, int wt[], int val[], vector<vector<int>> &dp){
+        
+        if(ind==0){
+            return (W/wt[0])*val[0];
+        }
+        
+        if(dp[ind][W]!= -1)                     return dp[ind][W];
+        
+        int notTake = 0 + f(ind-1,W,wt,val,dp);
+        int take = INT_MIN;
+            
+        if(wt[ind]<=W)
+            take = val[ind] + f(ind,W-wt[ind],wt,val,dp);
+        
+        return dp[ind][W] = max(notTake, take);
+    }
+    
+public:
+    int knapSack(int N, int W, int val[], int wt[])
+    {
+        vector<vector<int>> dp(N, vector<int> (W+1,-1));
+        return f(N-1,W,wt,val,dp);
+    }
+};
+
+//-----------------------------------------------------TABULATION-----------------------------------------------------------------
+
+class Solution{
+public:
+    int knapSack(int N, int W, int val[], int wt[])
+    {
+        vector<vector<int>> dp(N, vector<int> (W+1,0));
+        
+        for(int w=wt[0]; w<=W; w++)
+            dp[0][w] = (w/wt[0])*val[0];
+        
+        for(int ind =1; ind<N; ind++){
+            for(int w=0; w<=W; w++){
+                
+                int notTake = 0 + dp[ind-1][w]; 
+                int take = INT_MIN;
+                    
+                if(wt[ind]<=w)
+                    take = val[ind] + dp[ind][w-wt[ind]];     
+                
+                dp[ind][w] = max(notTake, take);
+            }
+        }
+        
+        return dp[N-1][W];
+    }
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------
