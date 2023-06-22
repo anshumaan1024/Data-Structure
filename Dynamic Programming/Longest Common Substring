@@ -37,20 +37,20 @@ class Solution{
 
 class Solution{
     public:
-    int f(int n, int m, string& s1, string& s2, vector<vector<int>>& dp) {
+    int f(int i, int j, string& s1, string& s2, vector<vector<int>>& dp) {
         
-        if (n == 0 || m == 0)               return 0;
+        if ( i== 0 || j== 0)               return 0;
     
-        if (dp[n][m] != -1)                 return dp[n][m];
+        if (dp[i][j] != -1)                 return dp[i][j];
     
         int result = 0;
-        if (s1[n-1] == s2[m-1]) 
-            result = 1 + f(n-1, m-1, s1 ,s2, dp);
+        if (s1[i-1] == s2[j-1]) 
+            result = 1 + f(i-1, j-1, s1 ,s2, dp);
     
         else 
             result = 0;
 
-        return dp[n][m] = result;
+        return dp[i][j] = result;
     
     }
     
