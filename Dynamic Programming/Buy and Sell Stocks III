@@ -1,0 +1,120 @@
+// DP 37 - Buy and Sell Stocks III
+// @leetcode - Best Time to Buy and Sell Stock III
+
+//------------------------------------------------------RECURSION-------------------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, bool buy, int cap, vector<int> &prices){
+
+        if(cap==0)                      return 0;
+        if(ind== prices.size())                      return 0;
+
+        int profit = 0;
+        if(buy){
+            profit = max( -prices[ind] + f(ind+1,0,cap,prices),        // taking
+                                     0 + f(ind+1,1,cap,prices) );      // not taking
+        }
+
+        else{
+            profit = max(  prices[ind] + f(ind+1,1,cap-1,prices),      // selling
+                                     0 + f(ind+1,0,cap,prices)  );     // not selling
+        }
+
+        return profit;
+
+    }
+
+public:
+    int maxProfit(vector<int>& prices) {
+
+        return f(0,1,2,prices);          // (0th index of array, 1 for buying, 2 for cap)
+        
+    }
+};
+
+//------------------------------------------------------MEMOIZATION-------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, bool buy, int cap, vector<int> &prices, 
+                                vector<vector<vector<int>>> &dp){
+
+        if(cap==0)                                    return 0;
+        if(ind== prices.size())                       return 0;
+
+        if(dp[ind][buy][cap]!= -1)                    return dp[ind][buy][cap];
+
+        int profit = 0;
+        if(buy){
+            profit = max( -prices[ind] + f(ind+1,0,cap,prices,dp),        // taking
+                                     0 + f(ind+1,1,cap,prices,dp) );      // not taking
+        }
+
+        else{
+            profit = max(  prices[ind] + f(ind+1,1,cap-1,prices,dp),      // selling
+                                     0 + f(ind+1,0,cap,prices,dp)  );     // not selling
+        }
+
+        return dp[ind][buy][cap] = profit;
+
+    }
+
+public:
+    int maxProfit(vector<int>& prices) {
+
+        int n = prices.size();
+        // 3d array  dp[n][2][3] = dp[n][buy][cap]
+        vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3,-1)));
+
+        return f(0,1,2,prices,dp);       // (0th index of array, 1 for buying, 2 for cap)
+        
+    }
+};
+
+//----------------------------------------------------------TABULATION----------------------------------------------------------------
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n+1, vector<vector<int>> (2, vector<int> (3,0)));
+
+        // no need of base case because, values will be already 0
+        for(int ind=0; ind<=n;ind++){               // base case 1
+            for(int buy=0; buy<=1; buy++)
+                dp[ind][buy][0] = 0;
+        }
+
+        for(int buy=0; buy<=1; buy++){              // base case 2
+            for(int cap=0; cap<=2; cap++)
+                dp[n][buy][cap] = 0;
+        }
+
+        for(int ind=n-1; ind>=0; ind--){
+            for(int buy=0; buy<=1; buy++){
+                for(int cap= 1; cap<=2; cap++){
+            
+                    int profit = 0;
+                    if(buy){
+                        profit = max( -prices[ind] + dp[ind+1][0][cap] ,  // taking
+                                         0 + dp[ind+1][1][cap]  );   // not taking
+                    }
+
+                    else{
+                        profit = max( prices[ind] + dp[ind+1][1][cap-1], // selling
+                                         0 +  dp[ind+1][0][cap]   ); // not selling
+                    }
+
+                    dp[ind][buy][cap] = profit;
+                }
+            }
+        }
+
+        return dp[0][1][2];        // (0th index of array, 1 for buying, 2 for cap)
+        
+    }
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------
