@@ -33,8 +33,8 @@ public:
 
         if(dp[ind][prevInd+1]!= -1)                   return dp[ind][prevInd+1];
 
-        int len = 0 + f(ind+1,prevInd,nums,dp);                   // take
-        if(prevInd==-1 || nums[ind] > nums[prevInd] )            // not take
+        int len = 0 + f(ind+1,prevInd,nums,dp);             // not take
+        if(prevInd==-1 || nums[ind] > nums[prevInd] )       // take
             len = max(len, 1 + f(ind+1,ind,nums,dp) );
 
         return dp[ind][prevInd+1] = len;
@@ -44,7 +44,7 @@ public:
 
         int n = nums.size();
         vector<vector<int>> dp(n, vector<int> (n+1,-1));
-        return f(0,-1,nums,dp);         // f(0th index, previous index,nums)
+        return f(0,-1,nums,dp);         // f(0th index, previous index,nums,dp)
         
     }
 };
