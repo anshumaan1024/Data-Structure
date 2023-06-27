@@ -1,0 +1,54 @@
+// DP 41 - Longest Increasing Subsequence
+// @ leetcod - Longest Increasing Subsequence
+
+//-----------------------------------------------------RECURSION--------------------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, int prevInd, vector<int> &nums){
+
+        if(ind==nums.size())                        return 0;
+
+        int len = 0 + f(ind+1,prevInd,nums);
+        if(prevInd==-1 || nums[ind] > nums[prevInd] )
+            len = max(len, 1 + f(ind+1,ind,nums) );
+
+        return len;
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) {
+
+        return f(0,-1,nums);         // f(0th index, previous index,nums)
+        
+    }
+};
+
+//------------------------------------------------------MEMOIZATION---------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, int prevInd, vector<int> &nums,vector<vector<int>> &dp){
+
+        if(ind==nums.size())                        return 0;
+
+        if(dp[ind][prevInd+1]!= -1)                   return dp[ind][prevInd+1];
+
+        int len = 0 + f(ind+1,prevInd,nums,dp);
+        if(prevInd==-1 || nums[ind] > nums[prevInd] )
+            len = max(len, 1 + f(ind+1,ind,nums,dp) );
+
+        return dp[ind][prevInd+1] = len;
+    }
+public:
+    int lengthOfLIS(vector<int>& nums) {
+
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int> (n+1,-1));
+        return f(0,-1,nums,dp);         // f(0th index, previous index,nums)
+        
+    }
+};
+
+//-------------------------------------------------------TABULATION--------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------
