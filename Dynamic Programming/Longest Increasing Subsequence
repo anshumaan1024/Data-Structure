@@ -101,4 +101,28 @@ public:
     }
 };
 
-//--------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------ANOTHER APPROACH---------------------------------------------------------
+// this approach is required to print LIS
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+
+        int n = nums.size();
+        vector<int> dp(n,1);
+        int lis = 1;
+
+        for(int ind=0; ind<n; ind++){
+            for(int prevInd = 0; prevInd<ind; prevInd++){
+                if(nums[ind] > nums[prevInd])
+                    dp[ind] = max( dp[ind], 1 + dp[prevInd] );
+                    lis = max(lis, dp[ind]);
+            }
+        } 
+
+        return lis;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------
