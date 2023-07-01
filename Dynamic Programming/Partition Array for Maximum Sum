@@ -1,0 +1,103 @@
+// DP 54 : Partition Array for Maximum Sum
+// @leetcode : Partition Array for Maximum Sum
+
+//-------------------------------------------------------RECURSION----------------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, int k, vector<int> &arr){
+
+        int n = arr.size();
+        if(ind== n)                 return 0;
+
+        int len = 0;
+        int maxi =INT_MIN;
+        int ans =INT_MIN;
+        for(int j=ind; j<min( ind+k,n); j++){
+
+            len++;
+            maxi = max(maxi, arr[j]);
+            int sum = len*maxi + f(j+1,k,arr);
+            ans = max( ans, sum);
+        }
+
+        return ans;
+    }
+
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        
+        int n = arr.size();
+        return f(0,k,arr);
+
+    }
+};
+
+//-----------------------------------------------------------MEMOIZATION--------------------------------------------------------
+
+class Solution {
+public:
+    int f(int ind, int k, vector<int> &arr, vector<int> &dp){
+
+        int n = arr.size();
+        if(ind== n)                     return 0;
+
+        if(dp[ind]!= -1)                return dp[ind];
+
+        int len = 0;
+        int maxi =INT_MIN;
+        int ans =INT_MIN;
+        for(int j=ind; j<min( ind+k,n); j++){
+
+            len++;
+            maxi = max(maxi, arr[j]);
+            int sum = len*maxi + f(j+1,k,arr,dp);
+            ans = max( ans, sum);
+        }
+
+        return dp[ind] = ans;
+    }
+
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        
+        int n = arr.size();
+        vector<int> dp(n,-1);
+        return f(0,k,arr,dp);
+
+    }
+};
+
+//------------------------------------------------------------TABULATION-------------------------------------------------------
+
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        
+        int n = arr.size();
+        vector<int> dp(n+1,0);
+
+        dp[n]=0;                        // base case
+
+        for(int ind=n-1; ind>=0; ind--){
+
+            int len = 0;
+            int maxi =INT_MIN;
+            int ans =INT_MIN;
+            for(int j=ind; j<min( ind+k,n); j++){
+
+                len++;
+                maxi = max(maxi, arr[j]);
+                int sum = len*maxi + dp[j+1];
+                ans = max( ans, sum);
+            }
+
+            dp[ind] = ans;
+        }
+
+        return dp[0]; 
+
+    }
+};
+
+//------------------------------------------------------------------------------------------------------------------------------
