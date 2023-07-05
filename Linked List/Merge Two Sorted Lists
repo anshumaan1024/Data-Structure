@@ -1,0 +1,135 @@
+// @leetcode : Merge Two Sorted Lists
+
+//-----------------------------------------------------NAIVE APPROACH-------------------------------------------------------------
+// creating new linked list
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        
+        ListNode* p = list1;
+        ListNode* q = list2;
+        ListNode* newHead = NULL;
+
+        ListNode* prev = NULL;
+
+        while( p!=NULL && q!=NULL){
+
+            ListNode* temp = new ListNode();
+            temp->next = NULL;
+
+            if(prev!=NULL)
+                prev->next = temp;
+
+            if(newHead==NULL)
+                newHead = temp;
+
+            if(p->val <= q->val){
+                temp->val = p->val;
+                p = p->next;
+            }
+            else{
+                temp->val = q->val;
+                q = q->next;
+            }   
+
+            prev = temp;
+            
+        }
+
+        while(p!=NULL){
+
+            ListNode* temp = new ListNode();
+            temp->val = p->val;
+            temp->next = NULL;
+
+            if(prev!=NULL)
+                prev->next = temp;
+
+            if(newHead==NULL)
+                newHead = temp;
+
+            p=p->next;
+            prev = temp;
+            
+        }
+
+        while(q!=NULL){
+
+            ListNode* temp = new ListNode();
+            temp->val = q->val;
+            temp->next = NULL;
+
+            if(prev!=NULL)
+                prev->next = temp;
+
+            if(newHead==NULL)
+                newHead = temp;
+
+            q=q->next;
+
+            prev = temp;
+            
+        }
+
+        return newHead;
+
+    }
+};
+
+//------------------------------------------------------OPTIMAL--------------------------------------------------------------------
+// inplace algorithm
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+
+        ListNode* l1 = list1;
+        ListNode* l2 = list2;
+    
+        if(l1==NULL)                return l2;
+        if(l2==NULL)                return l1;
+
+        // l1 points to smaller element
+        if(l1->val > l2->val)       swap(l1,l2);
+        ListNode* res = l1;
+
+        while(l1!=NULL && l2!=NULL){
+
+            ListNode* temp = NULL;
+            while( l1!=NULL && l1->val <= l2->val){
+                temp = l1;
+                l1 = l1->next;
+            }
+
+            temp->next = l2;
+            swap(l1,l2);
+
+        }
+
+        return res;
+
+    }
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------
