@@ -1,0 +1,103 @@
+// @leetcode : Intersection of Two Linked Lists
+
+//-----------------------------------------------------------NAIVE APPROACH------------------------------------------------------------
+// using sets
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+
+        unordered_set<ListNode*> s1;
+
+        ListNode* temp = headA;
+        while(temp!=NULL){
+            s1.insert(temp);
+            temp = temp->next;
+        }
+
+        temp = headB;
+        while(temp!=NULL){
+            
+            if(s1.find(temp)!= s1.end())            return temp;
+            temp= temp->next;
+        }        
+
+        return NULL;
+    }
+};
+
+//-------------------------------------------------------------OPTIMAL-1 ----------------------------------------------------------
+// first counting all nodes, then.....
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+
+        ListNode* d1 = headA;
+        int n = 0;
+        
+        ListNode* d2 = headB;
+        int m= 0;
+
+        while(d1!=NULL || d2!=NULL){
+
+            if(d1!=NULL){
+                n++;
+                d1 = d1->next;
+            }
+
+            if(d2!=NULL){
+                m++;
+                d2 = d2->next;
+            }
+
+        }
+
+        ListNode* a = headA;
+        ListNode* d = NULL;
+
+        if( n < m){
+                a = headA;
+                d = headB;
+        }   
+
+        else {
+
+            a = headB;
+            d = headA;
+        }               
+
+        for(int i =0; i < abs(n-m); i++)
+            d = d->next;
+
+        while( a!=d ){
+            a = a->next;
+            d = d->next;
+        }
+
+        return a;
+
+        
+    }
+};
+
+//------------------------------------------------------------OPTIMAL -2 ---------------------------------------------------------
+// using 2 pointers
+
+//-------------------------------------------------------------------------------------------------------------------------------
