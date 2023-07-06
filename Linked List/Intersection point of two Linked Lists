@@ -116,9 +116,11 @@ public:
 
         ListNode* a = headA;
         ListNode* b = headB;
-
+        
+        // loop stops at 2nd iteration
         while(a!=b){
-
+            
+            // for end of first itertion
             if(a==NULL)             a = headB;
             else                    a = a->next;
 
