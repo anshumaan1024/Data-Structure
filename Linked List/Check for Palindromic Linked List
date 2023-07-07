@@ -1,0 +1,115 @@
+// @leetcode : Palindrome Linked List
+
+//----------------------------------------------------------NAIVE APPROACH--------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome( vector<int> &arr ){
+
+        int l = 0;
+        int r = arr.size()-1;
+
+        while(l<r){
+            if(arr[l]!=arr[r])              return false;
+            l++;
+            r--;
+        }
+
+        return true;
+    }
+
+public:
+    bool isPalindrome(ListNode* head) {
+
+        if(head==NULL || head->next==NULL)              return true;
+
+        vector<int> arr;
+        ListNode* temp = head;
+
+        while(temp!=NULL){
+            arr.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        return isPalindrome(arr);
+        
+    }
+};
+
+//------------------------------------------------------------OPTIMAL-------------------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList( ListNode* head ){
+
+        ListNode* dummy = new ListNode();
+        dummy = NULL;
+
+        while(head!=NULL){
+
+            ListNode* curr = head->next;
+            head->next = dummy;
+            dummy = head;
+            head = curr;
+        }
+
+        return dummy;
+
+    }
+
+public:
+    bool isPalindrome(ListNode* head) {
+        
+        if(head==NULL || head->next==NULL )                 return true;
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast->next!=NULL && fast->next->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        // reverese half linked List
+        slow->next = reverseList(slow->next);
+
+        ListNode* temp = head;
+        slow = slow->next;
+
+        // stop when slow points to NULL
+        while(slow!=NULL){
+            
+            if(temp->val!= slow->val)               return false;
+
+            temp = temp->next;
+            slow = slow->next;
+
+        }
+
+        return true;
+
+    }
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------
+
