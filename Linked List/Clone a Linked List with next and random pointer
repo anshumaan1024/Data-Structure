@@ -1,0 +1,82 @@
+// @leetcode : Copy List with Random Pointer
+
+//--------------------------------------------------------BRUTE FORCE-----------------------------------------------------------------
+// using map
+
+
+
+//----------------------------------------------------------OPTIMAL------------------------------------------------------------------
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+
+        if(head==NULL)                          return head;
+
+        // inserting new nodes between 
+
+        Node* cur = head;
+        while(cur!=NULL){
+
+            Node* temp = cur->next;
+            cur->next = new Node(cur->val);
+            cur->next->next = temp;
+
+            cur =temp; 
+        }
+
+        // setting random pointer of new node
+        cur = head;
+
+        while(cur!=NULL){
+
+            Node* temp = cur->random;
+
+            if(cur->random==NULL)
+                cur->next->random = NULL;
+            else    
+                cur->next->random = temp->next;
+
+            cur = cur->next->next;
+        }
+
+        // separating both linked list
+
+        Node* original = head;
+        Node* copy = head->next;
+        Node* ans = copy;
+
+        while( original!=NULL){
+
+            original->next = original->next->next;
+
+            if(copy->next!=NULL) 
+                copy->next =  copy->next->next;
+
+            original = original->next;
+            copy = copy->next;
+        
+        }
+
+        return ans;
+        
+    }
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------
