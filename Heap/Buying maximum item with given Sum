@@ -1,0 +1,31 @@
+// @gfg : Maximize Toys
+
+//---------------------------------------------------------------OPTIMAL--------------------------------------------------------------
+
+class Solution{
+public:
+    int toyCount(int N, int K, vector<int> arr)
+    {
+        // min heap
+        priority_queue<int, vector<int>, greater<int> > pq( arr.begin(), arr.end());
+        
+        int count = 0;
+        while( pq.empty()==false && K>=0){
+            
+                if( K >= pq.top() ){
+                    count++;
+                    K = K - pq.top();
+                    pq.pop();
+                }
+                
+                else
+                    break;
+       
+        }
+    
+        return count;
+        
+    }
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------
