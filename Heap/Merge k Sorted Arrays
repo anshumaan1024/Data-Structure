@@ -1,0 +1,73 @@
+// @gfg : Merge k Sorted Arrays
+// similar question @leetcode : Merge k Sorted Lists
+
+//--------------------------------------------------------NAIVE APPROACH-----------------------------------------------------------
+
+//--------------------------------------------------------------OPTIMAL-----------------------------------------------------------
+
+class triplet{
+    
+    public:
+    int val;                //  value
+    int apos;               //  position of array
+    int vpos;               //  postion of value in array. i.e-index
+    
+    // constructor
+    triplet(int v, int ap, int vp){
+        val = v;
+        apos = ap;
+        vpos = vp;
+    }
+};
+
+// custom comparator function
+struct myComp{
+    
+    bool operator()(triplet &t1, triplet &t2){
+        return  t1.val > t2.val;
+    }
+};
+
+class Solution
+{
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
+    {
+        // min heap
+        priority_queue< triplet, vector<triplet>, myComp > pq;
+        
+        // pushing first element of every Kth array to min heap
+        for(int i=0; i<K; i++){
+            triplet t( arr[i][0], i, 0 );
+            pq.push(t);  
+        }
+        
+        // stores final sorted array
+        vector<int> ans;
+        
+        while(pq.empty()==false){
+            
+            triplet curr = pq.top();
+            pq.pop();
+            
+            ans.push_back(curr.val);
+            
+            int ap= curr.apos;
+            int vp = curr.vpos;
+            
+            // checks if kth array is empty or not
+            if( vp + 1 < arr[ap].size()){
+                triplet temp( arr[ap][vp+1], ap, vp+1 );
+                pq.push(temp);
+            }
+            
+        }
+        
+        return ans;
+
+    }
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------
+
