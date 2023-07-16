@@ -1,0 +1,41 @@
+// @leetcode : Find K Closest Elements
+
+//--------------------------------------------------------NAIVE APPROACH---------------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+
+        int n = arr.size();
+        vector<int> ans;
+        vector<bool> visited(n,0);
+
+        for(int i=0; i<k; i++){
+
+            int minDiff = INT_MAX;
+            int minDiffIndex;
+
+            for(int j=0; j<n; j++){
+
+                if( visited[j]==false && abs(arr[j]-x) < minDiff){
+                    minDiff = abs(arr[j]-x);
+                    minDiffIndex = j;
+                }
+            }
+
+            visited[minDiffIndex] = true;
+            ans.push_back(arr[minDiffIndex]);
+
+        }
+
+        sort(ans.begin(), ans.end());
+        
+        return ans;
+        
+    }
+};
+
+//---------------------------------------------------------OPTIMAL----------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------
