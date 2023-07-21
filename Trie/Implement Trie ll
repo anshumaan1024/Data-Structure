@@ -1,0 +1,129 @@
+// @codestudio : Implement Trie ll
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+#include <bits/stdc++.h> 
+class TrieNode{
+
+    public:
+
+    char data;
+    int countPrefix;
+    int isTerminal;
+    TrieNode* child[26];
+
+    TrieNode(char c){
+
+        data = c;
+        countPrefix = 0;
+        isTerminal = 0;
+
+        for(int i=0; i<26; i++)
+            child[i] = NULL;
+
+    }
+};
+
+class Trie{
+
+    public:
+        TrieNode* root;
+
+    Trie(){
+        root = new TrieNode('\0');
+    }
+
+    void insertHelper( TrieNode* root, string &word){
+
+        TrieNode* curr = root;
+        for(int i=0; i< word.size(); i++){
+
+            int index = word[i] - 'a';
+            // not present
+            if( curr->child[index]==NULL ){
+                curr->child[index] = new TrieNode(word[i]);
+            }
+            curr = curr->child[index];
+            
+            curr->countPrefix++;
+
+        }
+
+        curr->isTerminal++;
+
+    }
+
+    void insert(string &word){
+        insertHelper(root,word);
+    }
+
+    int countWordsEqualToHelper( TrieNode* root, string &word){
+
+        TrieNode* curr = root;
+
+        for(int i=0; i< word.size(); i++){
+
+            int index = word[i] - 'a';
+            if( curr->child[index]==NULL ){
+                return 0;                
+            }
+
+            curr = curr->child[index];
+        }
+
+        return curr->isTerminal;
+
+    }
+
+
+    int countWordsEqualTo(string &word){
+        return countWordsEqualToHelper( root,word);
+    }
+
+    int countWordsStartingWithHelper( TrieNode* root, string &word){
+
+        TrieNode* curr = root;
+        for(int i=0; i< word.size(); i++){
+
+            int index = word[i] - 'a';
+            if( curr->child[index]==NULL ){
+                return 0;                
+            }
+
+            curr = curr->child[index];
+        }
+
+        return curr->countPrefix;
+
+    }
+
+    int countWordsStartingWith(string &word){
+        return countWordsStartingWithHelper( root, word);
+    }
+
+    void eraseHelper( TrieNode* root, string &word){
+    
+        TrieNode* curr = root;
+        for(int i=0; i< word.size(); i++){
+
+            int index = word[i] - 'a';
+
+            if(curr->child[index]==NULL)
+                return;
+
+            curr = curr->child[index];
+            curr->countPrefix--;
+
+        }
+
+        curr->isTerminal--;
+
+    }
+
+    void erase(string &word){
+        eraseHelper(root, word);
+    }
+
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------
