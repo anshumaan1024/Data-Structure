@@ -1,0 +1,50 @@
+// @leetcode : Longest Common Prefix
+
+//------------------------------------------------------------NAIVE APPROACH-------------------------------------------------------------
+// without trie
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+
+        int n = strs.size();
+        if(n==1)                    return strs[0];
+        
+        string ans;
+        string str = strs[0];
+
+        // for traversing all characters of first string
+        for( int i=0; i< str.size() ; i++){
+
+            char ch = str[i];
+            bool match = true;
+            
+            // for comparing ch with rest of the strings
+            for(int j=1; j< n; j++){
+
+                if( i > strs[j].size() || ch!= strs[j][i] ){
+                    match = false;
+                    break;
+                }   
+            }
+
+            if( match == false )
+                break;
+            
+            ans.push_back(ch);
+
+        }
+
+        return ans;
+
+    }
+};
+
+//-------------------------------------------------------------OPTIMAL---------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------
+
+
+
