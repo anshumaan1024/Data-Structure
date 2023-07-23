@@ -4,9 +4,11 @@
 // using min heap - appraoch [ https://www.youtube.com/watch?v=eiM8LGi4h_g  ]
 
 class Solution{
+
     public:
     //Function to find the minimum number of platforms required at the
     //railway station such that no train waits.
+
     int findPlatform(int arr[], int dep[], int n)
     {
         vector<pair<int,int>>v;
@@ -45,8 +47,10 @@ class Solution{
 
 class Solution{
     public:
+
     //Function to find the minimum number of platforms required at the
     //railway station such that no train waits.
+
     int findPlatform(int arr[], int dep[], int n)
     {
     	sort(arr, arr+n);
