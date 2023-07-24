@@ -1,0 +1,76 @@
+// @gfg : Unique rows in boolean matrix
+
+//-----------------------------------------------------------USING TRIE (not optimal)---------------------------------------------------
+
+class TrieNode{
+    
+    public:
+    int data;
+    TrieNode* child[2];
+    bool isTerminal;
+    
+    TrieNode(int val){
+        data = val;
+        child[0] = NULL;
+        child[1] = NULL;
+        isTerminal = false;
+        
+    }
+};
+
+class Solution
+{
+    public:
+    void insert( TrieNode* root, int *arr, int col){
+        
+        for(int j=0; j<col; j++){
+            int index = arr[j];
+            
+            if( root->child[index]==NULL ){
+                root->child[index] = new TrieNode(arr[j]);
+            }
+            
+            root = root->child[index];
+        }
+        
+        root->isTerminal = true;
+    }
+    
+    public:
+    bool search( TrieNode* root, int *arr, int col){
+        
+        for(int j=0; j<col; j++){
+            int index = arr[j];
+            
+            if( root->child[index]==NULL ){
+                return false;
+            }
+            
+            root = root->child[index];
+        }
+        
+        return root->isTerminal;
+    }
+    
+    public:
+    // #define MAX 1000
+    vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col)
+    {
+        TrieNode* root = new TrieNode('\0');
+        vector<vector<int>> ans;
+        
+        for(int i=0; i<row; i++){
+            
+            if( search(root, M[i], col) == false){
+                insert(root, M[i], col);
+                vector<int> v( M[i], M[i] + col);
+                ans.push_back(v);
+            }
+        }
+        
+        return ans;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------
