@@ -1,0 +1,83 @@
+// @leetcode : Longest Word in Dictionary
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+class TrieNode{
+public:
+    char data;
+    TrieNode* child[26];
+    bool isTerminal;
+
+    TrieNode(char ch){
+        data = ch;
+        for(int i=0; i<26; i++)
+            child[i] = NULL;
+        isTerminal = false;
+    }
+
+};
+
+class Solution {
+public:
+    void insert( TrieNode* root, string word){
+
+        TrieNode* curr = root;
+        for(int i=0; i< word.size(); i++){
+            int index = word[i] - 'a';
+            if( root->child[index] == NULL )
+                root->child[index] = new TrieNode(word[i]);
+            
+            root = root->child[index];
+        }
+
+        root->isTerminal = true;
+
+    }
+
+public:
+    bool checkIfPrefixExist( TrieNode* root,  string word){
+
+        for(int i=0; i< word.size(); i++){
+           
+            int index = word[i] - 'a';
+            if( root->child[index] == NULL || root->child[index]->isTerminal == false )
+                return false;
+
+            root = root->child[index];
+        }
+
+        return true;
+
+    }
+
+public:
+    string longestWord(vector<string>& words) {
+
+        TrieNode* root  = new TrieNode('\0');
+
+        int n = words.size();
+        for(int i=0; i<n; i++ )
+            insert( root, words[i]);
+
+        string ans = "";
+
+        for(int i=0; i<n; i++){
+
+            if( checkIfPrefixExist( root, words[i]) ){
+
+                if( words[i].size() > ans.size() )
+                    ans = words[i];
+            
+                else if(  words[i].size() == ans.size() && words[i] < ans  )
+                    ans = words[i];
+            
+            }
+         
+        }
+
+        return ans;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------
