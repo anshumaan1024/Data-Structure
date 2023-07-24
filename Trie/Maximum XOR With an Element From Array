@@ -1,0 +1,108 @@
+// @leetcode : Maximum XOR With an Element From Array
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+class TrieNode{
+public:
+    TrieNode* child[2];
+
+    TrieNode(){
+        child[0] = NULL;
+        child[1] = NULL;
+    }
+};
+
+class Trie{
+public:
+    TrieNode* root;
+
+    Trie(){
+        root = new TrieNode();
+    }
+
+    void insertHelper( TrieNode* root, int num ){
+
+        for(int i=31; i>=0; i--){
+            int bit = ((num>>i) & 1);
+
+            if( root->child[bit] == NULL)
+                root->child[bit] = new TrieNode(); 
+
+            root = root->child[bit]; 
+        }
+    }
+
+    void insert( int num){
+        insertHelper(root,num);
+    }
+
+    int getMaxHelper( TrieNode* root, int num){
+
+        int maxNum = 0;
+        for(int i=31; i>=0; i--){
+
+            int bit = (( num>>i ) & 1);;
+
+            if( root->child[1-bit] != NULL ){
+                maxNum = maxNum | (1<<i);
+                root = root->child[1-bit];
+            }
+            else{
+                root = root->child[bit];
+            }
+
+        }
+
+        return maxNum;
+
+    }
+
+
+    int getMax( int num){
+        return getMaxHelper(root,num);
+    }
+
+};
+class Solution {
+public:
+    vector<int> maximizeXor(vector<int>& nums, vector<vector<int>>& queries) {
+
+        Trie* t = new Trie();
+
+        int q = queries.size();
+        vector<int> ans(q,0);
+
+        int n = nums.size();
+        sort(nums.begin(), nums.end() );
+
+        vector<pair<int, pair<int,int>>> oQ;
+        for(int i=0; i<q; i++)
+            oQ.push_back( {queries[i][1], {queries[i][0], i}});
+        
+        sort( oQ.begin(), oQ.end());
+        int ind = 0;
+
+        for(int i=0; i<q; i++){
+
+            int mi = oQ[i].first;
+            int xi = oQ[i].second.first;
+            int qInd = oQ[i].second.second;
+
+            while( ind <n && nums[ind] <= mi){
+                t->insert(nums[ind]);
+                ind++;
+            }
+
+            if(ind==0)  
+                ans[qInd] = -1;
+            else
+                ans[qInd] = t->getMax(xi);
+
+        }
+
+        return ans;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------
