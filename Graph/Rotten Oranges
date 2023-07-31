@@ -1,0 +1,149 @@
+// @leetcode : Rotting Oranges
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+
+        int m = grid.size();
+        int n = grid[0].size();
+        // store {{row, column}, time}
+        queue<pair<pair<int,int>,int>> q;
+        vector<vector<int>> vis(m, vector<int>(n,0));
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                // if cell contains rotten orange
+                if(grid[i][j]==2){
+                    q.push({{i,j},0});
+                    // mark as visited (rotten) in visited array
+                    vis[i][j] = 2;
+                }
+
+            }
+        }
+
+        int tMax = 0;
+        // delta row and delta column
+        int drow[4] = {-1,0,1,0};
+        int dcol[4] = {0,1,0,-1};
+
+        while(!q.empty()){
+
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int t = q.front().second;
+            q.pop();
+
+            tMax = max( tMax, t);
+            // exactly 4 neighbours
+            for(int i=0; i<4; i++){
+
+                // neighbouring row and column
+                int nrow = r + drow[i];
+                int ncol = c + dcol[i];
+                // then for unvisited fresh orange
+                if( nrow >=0 && nrow <m && ncol>=0 && ncol<n && vis[nrow][ncol]!=2 && grid[nrow][ncol]==1 ){
+                        // push in queue with timer increased
+                        q.push({{nrow,ncol}, t+1});
+                        // mark as rotten
+                        vis[nrow][ncol] = 2;
+                    }
+            }
+        }
+        
+        // check if there is fresh orange in grid, but not marked in vis[]
+        // if yes, then return -1
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if( grid[i][j]==1 && vis[i][j]!=2 )
+                    return -1;
+            }
+        }
+
+        return tMax;
+        
+    }
+};
+
+//---------------------------------------------------------------METHOD 2--------------------------------------------------------------
+// similar as above, but counting oranges as well
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+
+        int m = grid.size();
+        int n = grid[0].size();
+
+        // store {{row, column}, time}
+        queue<pair<pair<int,int>,int>> q;
+        vector<vector<int>> vis(m, vector<int>(n,0));
+
+        // counts Fresh oranges
+        int cntFresh = 0;
+
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+
+                // if cell contains rotten orange
+                if(grid[i][j]==2){
+
+                    q.push({{i,j},0});
+                    // mark as visited (rotten) in visited array
+                    vis[i][j] = 2;
+                }
+
+                if(grid[i][j]==1)
+                    cntFresh++;
+
+            }
+        }
+
+        int tMax = 0;
+        int cnt = 0;
+
+        // delta row and delta column
+        int drow[4] = {-1,0,1,0};
+        int dcol[4] = {0,1,0,-1};
+
+        while(!q.empty()){
+
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int t = q.front().second;
+            q.pop();
+
+            tMax = max( tMax, t);
+
+            // exactly 4 neighbours
+            for(int i=0; i<4; i++){
+
+                // neighbouring row and column
+                int nrow = r + drow[i];
+                int ncol = c + dcol[i];
+
+                // then for unvisited fresh orange
+                if( nrow >=0 && nrow <m && ncol>=0 && ncol<n && vis[nrow][ncol]!=2 && grid[nrow][ncol]==1 ){
+
+                        // push in queue with timer increased
+                        q.push({{nrow,ncol}, t+1});
+                        
+                        // mark as rotten
+                        vis[nrow][ncol] = 2;
+                        cnt++;
+                    }
+            }
+        }
+
+        // if all oranges are not rotten
+        if(cnt!= cntFresh)
+            return -1;
+        
+        return tMax;
+        
+    }
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------------
