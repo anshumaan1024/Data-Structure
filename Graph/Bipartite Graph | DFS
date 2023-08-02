@@ -4,18 +4,18 @@
 
 class Solution {
 public:
-    bool dfs(int node, int parentColor, vector<int> adj[], vector<int> &color){
+    bool dfs(int node, int col , vector<int> adj[], vector<int> &color){
         
-        color[node] = parentColor;
+        color[node] = col;
         
         for(auto it: adj[node]){
             
             if(color[it]==-1){
-                if( dfs(it,!color[node],adj,color) == false)
+                if( dfs(it,!col ,adj,color) == false)
                     return false;
             }
             
-            else if( color[it] == parentColor )
+            else if( color[it] == col )
                 return false;
             
         }
