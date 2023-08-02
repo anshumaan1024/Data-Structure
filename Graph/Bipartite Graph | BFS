@@ -1,0 +1,61 @@
+// @gfg : Bipartite Graph 
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    // colors a component
+public:
+    bool check(int i, int V, vector<int> adj[], vector<int> &color ){
+        
+	    int source = i;
+	    queue<int> q;
+	    q.push(source);
+	    
+	    color[source] = 0;
+	    
+	    while(!q.empty()){
+	        
+	        int node = q.front();
+	        q.pop();
+	        
+	        for(auto it: adj[node]){
+	            
+	            // if adjacent node is yet not colored
+	            // give oppostite color of the node
+	            
+	            if(color[it]==-1){
+	                if(color[node]==0)      color[it] = 1;
+	                else                    color[it] = 0;
+	                
+	                q.push(it);
+	            }
+	            
+	            // if ajacent guys is having same color
+	            if(color[it] == color[node] )       return false;
+	            
+	        }
+	        
+	    }
+	    
+	    return true;
+	    
+    }
+    
+public:
+	bool isBipartite(int V, vector<int>adj[]){
+	    
+	    vector<int> color(V,-1);
+	    
+	    for(int i=0; i<V; i++){
+	        if( color[i]==-1 ){
+	            if(check(i,V,adj,color) == false)
+	                return false;
+	        } 
+	    }
+	    
+	    return true;
+	}
+
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------
