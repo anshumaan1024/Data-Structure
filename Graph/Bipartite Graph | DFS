@@ -1,0 +1,43 @@
+// @gfg : Bipartite Graph 
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    bool dfs(int node, int parentColor, vector<int> adj[], vector<int> &color){
+        
+        color[node] = parentColor;
+        
+        for(auto it: adj[node]){
+            
+            if(color[it]==-1){
+                if( dfs(it,!color[node],adj,color) == false)
+                    return false;
+            }
+            
+            else if( color[it] == parentColor )
+                return false;
+            
+        }
+        
+        return true;
+    }
+    
+public:
+	bool isBipartite(int V, vector<int>adj[]){
+	    
+	    vector<int> color(V,-1);
+	    
+	    for(int i=0; i<V; i++){
+	        if(color[i]==-1){
+	            if( dfs(i,0,adj,color)== false)
+	                return false;
+	        }
+	    }
+	    
+	    return true;
+	}
+
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------
