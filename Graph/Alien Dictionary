@@ -56,8 +56,8 @@ class Solution{
         }
         
         string ans = "";
-        for(auto it : topo){
-            ans = ans + char(it +'a');
+        for(int i=0; i<topo.size(); i++){
+            ans = ans + char(topo[i] +'a');
         }
         
         return ans;
