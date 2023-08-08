@@ -1,0 +1,49 @@
+// @gfg : Minimum Spanning Tree
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution
+{
+	public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[])
+    {
+        // min heap
+        priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>> , 
+                        greater<pair<int,pair<int,int>>> > pq;
+        // {wt,node,parent}
+        pq.push({0,{0,-1}});
+        
+        vector<int> vis(V,0);
+        int sum = 0;
+        
+        while(!pq.empty()){
+            
+            auto it = pq.top();
+            int node = it.second.first;
+            int wt = it.first;
+            pq.pop();
+            
+            if(vis[node]==1)        continue;
+            
+            // add it to MST
+            vis[node] = 1;
+            sum += wt;
+            
+            for(auto it: adj[node] ){
+                
+                int adjNode = it[0];
+                int wt = it[1];
+                
+                if(vis[adjNode]==0)
+                    pq.push({wt,{adjNode,node}});
+                
+            }
+        }
+        
+        return sum;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------
