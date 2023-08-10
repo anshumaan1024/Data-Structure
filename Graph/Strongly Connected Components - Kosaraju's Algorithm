@@ -35,6 +35,7 @@ class Solution
         stack<int> st;
         
         // sorting edges according to finishing time
+        // V + E
         for(int i=0; i<V; i++){
             if(!vis[i])
                 dfs(i,vis,adj,st);
@@ -43,6 +44,7 @@ class Solution
         vector<int> adjT[V];
         
         // reversing the graph
+        // V + E
         for(int i=0; i<V; i++){
             
             vis[i] = 0;
@@ -56,6 +58,7 @@ class Solution
         
         int scc = 0;
         // dfs in each scc
+        // V + E
         while(!st.empty()){
             
             int node = st.top();
