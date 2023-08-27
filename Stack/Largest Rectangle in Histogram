@@ -4,55 +4,28 @@
 
 class Solution {
 public:
-    int leftHeight(int j, vector<int> &heights){
-
-        if(j==0)            return 0;
-
-        int i = j-1;
-        int count = 0;
-        while( i>=0 && heights[i] >= heights[j] ){
-            count++;
-            i--;
-        }
-
-        return count;
-
-    }
-
-public:
-    int rightHeight(int j, vector<int> &heights){
-
-        if(j==heights.size()-1)            return 0;
-
-        int i = j+1;
-        int count = 0;
-        while( i<heights.size() && heights[i] >= heights[j] ){
-            count++;
-            i++;
-        }
-        
-        return count;
-
-    }
-
-public:
     int largestRectangleArea(vector<int>& heights) {
-
+        
         int n = heights.size();
-        // stores largest rectangle's area
         int maxArea = 0;
 
         for(int i=0; i<n; i++){
 
-            int currArea = heights[i];
+            int left = 0, right = 0;
 
-            // check LHS bars, if they can form rectangle
-            int left = leftHeight(i,heights);
-            // checking RHS bars, if they can form rectangle
-            int right = rightHeight(i,heights);
+            // checks LHS bar, if they form rectangle
+            for(int l = i-1; l>=0; l--){
+                if(heights[l] >= heights[i])            left++;
+                else                                    break;
+            }
+            
+            // checks RHS bar , if they form rectangle
+            for(int r=i+1; r<n; r++){
+                if(heights[r] >= heights[i] )           right++;
+                else                                    break;
+            }
 
-            currArea += (left + right) * heights[i];
-
+            int currArea = (left+right+1)*heights[i];
             maxArea = max( maxArea, currArea );
 
         }
