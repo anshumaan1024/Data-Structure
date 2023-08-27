@@ -58,6 +58,7 @@ public:
             st.push(i);
         }
 
+        // clearing the stack, to be reused again
         while(!st.empty())
             st.pop();
         
