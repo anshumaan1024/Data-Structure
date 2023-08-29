@@ -1,6 +1,7 @@
 // @leetcode : Online Stock Span
 
 //---------------------------------------------------------------------------------------------------------------------------------------
+// Hint : it is variation of previous greater element
 
 class StockSpanner {
 public:
