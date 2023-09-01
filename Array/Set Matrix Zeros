@@ -1,3 +1,45 @@
 // leetcode : Set Matrix Zeros
 
-//-----------------------------------------------------------------------------------NAIVE----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------NAIVE--------------------------------------------------------------------
+
+class Solution {
+public:
+    void setMinus(vector<vector<int>> &matrix, int a, int b){
+
+        int row = matrix.size();
+        int col = matrix[0].size();
+
+        for(int i=0; i<row; i++)        // set col to -1
+            if( matrix[i][b] !=0)       matrix[i][b] = -10;
+
+        for(int j=0; j<col; j++)        // set row to -1
+            if( matrix[a][j]!=0)        matrix[a][j] = -10;
+    }
+
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+
+        int row = matrix.size();
+        int col = matrix[0].size();
+
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col ; j++){
+                if(matrix[i][j]==0)
+                    setMinus(matrix,i,j);
+            }
+        }
+
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col ; j++){
+                if(matrix[i][j]== -10)
+                    matrix[i][j] = 0;
+            }
+        }
+         
+    }
+};
+
+//--------------------------------------------------------------BETTER-------------------------------------------------------------------
+
+
+//--------------------------------------------------------------OPTIMAL----------------------------------------------------------------
