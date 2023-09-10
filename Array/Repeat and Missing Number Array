@@ -1,0 +1,31 @@
+// @interviewBit : Repeat and Missing Number Array  
+// same question @leetcode : Set Mismatch
+
+//---------------------------------------------------------------OPTIMAL----------------------------------------------------------------
+// using basic maths
+
+vector<int> Solution::repeatedNumber(const vector<int> &nums) {
+    
+        long long n = nums.size();
+        long long s = 0;
+        long long s2 = 0;
+
+        for(int i=0; i<n; i++){
+            s += nums[i];
+            s2 += (long long)nums[i]*(long long)nums[i];
+        }
+
+        long long sn = (n*(n+1))/2;
+        long long s2n = (n*(n+1)*(2*n+1))/6;
+
+        long long val1 =  s-sn;
+        long long val2 = (s2 - s2n)/val1;
+
+        int repeat = (val1 + val2)/2;
+        int missing = val2-repeat;
+
+        return {repeat,missing};
+    
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------
