@@ -1,0 +1,38 @@
+// @leetcode : Add Binary
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    string addBinary(string a, string b) {
+
+        int aSize = a.size();
+        int bSize = b.size();
+        int i = 0;
+        int carry = 0;
+        string ans = "";
+
+        while( i<aSize || i<bSize || carry==1 ){
+
+            int x = 0;
+            if( i < aSize && a[aSize-1-i]=='1' )
+                x = 1;
+            
+            int y = 0;
+            if( i < bSize && b[bSize-1-i]=='1' )
+                y = 1;
+            
+            string sum = to_string((x+y+carry)%2);
+            carry = (x+y+carry)/2;
+
+            ans = sum + ans;
+            i++;
+
+        }
+
+        return ans;
+
+    }
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------
