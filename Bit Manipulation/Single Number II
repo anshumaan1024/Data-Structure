@@ -38,7 +38,7 @@ public:
 };
 
 //-----------------------------------------------------------------METHOD-3------------------------------------------------------------
-// using bit-manipulation
+// using counting set bits
 
 class Solution {
 public:
