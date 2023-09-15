@@ -66,6 +66,23 @@ public:
 
 //-------------------------------------------------------------METHOD-4 [OPTIMAL]----------------------------------------------------
 
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
 
+        int n = nums.size();
+        int ones = 0;   // stores element which repeats only once
+        int two = 0;    // elements which repeats twice
+                        // elements which repeat 3 times, are not stored
+                        
+        for(int i=0; i<n; i++){
+            ones = (ones^nums[i])&(~two);
+            two = (two^nums[i])&(~ones);
+        }
+
+        return ones;
+        
+    }
+};
 
 //------------------------------------------------------------------------------------------------------------------------------------
