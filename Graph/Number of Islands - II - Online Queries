@@ -1,0 +1,102 @@
+// @gfg : Number Of Islands
+
+//--------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+  public:
+    class disjointSet{
+        public:
+            vector<int> rank,parent;
+            
+        disjointSet(int n){
+            rank.resize(n+1,0);
+            parent.resize(n+1);
+            
+            for(int i=0; i<=n; i++){
+                parent[i] = i;
+            }
+        }
+        
+        int findUPar(int node){
+            if(parent[node]==node)
+                return node;
+            parent[node] = findUPar(parent[node]);
+            
+            return parent[node];
+        }
+        
+        void unionByRank(int u, int v){
+            int ulp_u = findUPar(u);
+            int ulp_v = findUPar(v);
+            
+            if(ulp_u==ulp_v)        return;
+            
+            if( rank[ulp_u] < rank[ulp_v] )
+                parent[ulp_u] = ulp_v;
+            else if( rank[ulp_u] > rank[ulp_v] )
+                parent[ulp_v] = ulp_u;
+            else{
+                parent[ulp_u] = ulp_v;
+                rank[ulp_v]++;
+            }
+        }
+        
+    };
+
+  public:
+    vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
+        
+        vector<vector<int>> vis(n, vector<int> (m,0));
+        disjointSet ds(n*m);
+        
+        vector<int> ans;
+        int count = 0;
+    
+        for(int i=0;i<operators.size();i++){
+            
+            int row = operators[i][0];
+            int col = operators[i][1];
+            
+            if(vis[row][col]==1){
+                ans.push_back(count);
+                continue;
+            }        
+            
+            vis[row][col] = 1;
+            count++;
+            
+            int drow[4] = {-1,0,1,0};
+            int dcol[4] = {0,1,0,-1};
+            
+            for(int d=0; d<4; d++){
+                
+                int adjr = row + drow[d];
+                int adjc = col + dcol[d];
+                
+                // if adjacent cell is valid cell
+                if( adjr>=0 && adjr<n && adjc>=0 && adjc<m  ){
+                    
+                    if(vis[adjr][adjc]==1){
+                        
+                        int adjCell = m*adjr + adjc;
+                        int cell = m*row + col;
+                        
+                        if(ds.findUPar(adjCell)!=ds.findUPar(cell)){
+                            ds.unionByRank(adjCell,cell);
+                            count--;
+                        }   
+                    }
+                }
+            }
+            
+            ans.push_back(count);
+            
+        }
+        
+        return ans;
+        
+    }
+};
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------
