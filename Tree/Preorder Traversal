@@ -1,0 +1,26 @@
+// @leetcode : Binary Tree Preorder Traversal
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    void f(TreeNode* root, vector<int> &ans ){
+    
+        if(root==NULL)          return;
+
+        ans.push_back(root->val);
+        f(root->left,ans);
+        f(root->right,ans);
+
+    }
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+
+        vector<int> ans;
+        f(root,ans);
+        return ans;
+        
+    }
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
