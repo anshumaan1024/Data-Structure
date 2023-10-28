@@ -1,0 +1,39 @@
+// @leetcode : Diameter of Binary Tree
+
+//----------------------------------------------------------------------METHOD-1 (NAIVE)--------------------------------------------------------------------------
+
+class Solution {
+public:
+    int height(TreeNode* root){
+        if(root==NULL)             return 0;
+        int lh = height(root->left);
+        int rh = height(root->right);
+
+        return 1 + max(lh,rh);
+    }
+public:
+    void f(TreeNode* root, int &maxi){
+
+        if(root==NULL)          return;
+
+        int lh = height(root->left);
+        int rh = height(root->right);
+        maxi =  max(maxi, lh+rh );
+
+        f(root->left,maxi);
+        f(root->right,maxi);
+
+    }
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+
+        int maxi = 0;
+        f(root,maxi);
+
+        return maxi;
+        
+    }
+};
+
+//---------------------------------------------------------------------METHOD 2(OPTIMAL)--------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
