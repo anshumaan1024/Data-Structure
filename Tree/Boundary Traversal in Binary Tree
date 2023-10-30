@@ -1,0 +1,58 @@
+// @gfg : Boundary Traversal of binary tree
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    void leftBoundary(Node* root, vector<int> &ans){
+        
+        if(root==NULL)                                      return;
+        if(root->left==NULL && root->right==NULL)           return;
+        
+        ans.push_back(root->data);
+        if(root->left!=NULL)                                leftBoundary(root->left,ans);
+        else if(root->right!=NULL)                          leftBoundary(root->right,ans);
+    }
+public:
+    void rightBoundary(Node* root, vector<int> &ans){
+        
+        if(root==NULL)                                      return;
+        if(root->left==NULL && root->right==NULL)           return;
+        
+        if(root->right!=NULL)                               rightBoundary(root->right,ans);
+        else if(root->left!=NULL)                           rightBoundary(root->left,ans);
+        ans.push_back(root->data);
+    }
+public:
+    void leaf(Node* root, vector<int> &ans){
+        
+        if(root==NULL)              return;
+        
+        if(root->left==NULL && root->right==NULL)
+        ans.push_back(root->data);
+        
+        leaf(root->left,ans);
+        leaf(root->right,ans);
+    }
+    
+public:
+    vector <int> boundary(Node *root)
+    {
+        vector<int> ans;
+        if(root==NULL)              return ans;
+        
+        ans.push_back(root->data);
+        
+        leftBoundary(root->left,ans);
+        
+        leaf(root->left,ans);
+        leaf(root->right,ans);
+        
+        rightBoundary(root->right,ans);
+        
+        return ans;
+        
+    }
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
