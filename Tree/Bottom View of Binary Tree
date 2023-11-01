@@ -1,0 +1,38 @@
+// @gfg : Bottom View of Binary Tree
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+  public:
+    vector <int> bottomView(Node *root) {
+        
+        vector<int> ans;
+        if(root==NULL)                  return ans;
+        
+        queue<pair<Node*,int>> q;
+        q.push({root,0});
+        // {node,line}
+        map<int,int> m;
+
+        while(!q.empty()){
+            
+            Node* node = q.front().first;
+            int line = q.front().second;
+            q.pop();
+            
+            if(node->left!=NULL)            q.push({node->left,line-1});
+            if(node->right!=NULL)           q.push({node->right,line+1});
+            
+            m[line] = node->data;
+            
+        }
+        
+        for(auto it: m)
+            ans.push_back(it.second);
+        
+        return ans;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
