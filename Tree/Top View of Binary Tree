@@ -12,10 +12,8 @@ class Solution
         
         queue<pair<Node*,int>> q;
         // {node,line}
-        q.push({root,0});
-        
+        q.push({root,0});        
         map<int,int> m;
-        m[0] = root->data;
         
         while(!q.empty()){
             
