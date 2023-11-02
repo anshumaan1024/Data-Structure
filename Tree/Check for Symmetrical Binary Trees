@@ -1,0 +1,26 @@
+// @leetcode : Symmetric Tree
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    bool isSymmetricHelper(TreeNode* leftRoot, TreeNode* rightRoot){
+
+        if(leftRoot==NULL || rightRoot==NULL)          
+            return leftRoot==rightRoot;
+
+        if(leftRoot->val!=rightRoot->val)        return false;            
+
+        return (isSymmetricHelper(leftRoot->left,rightRoot->right) && 
+                 isSymmetricHelper(leftRoot->right,rightRoot->left) );
+    }
+
+public:
+    bool isSymmetric(TreeNode* root) {
+
+        if(root==NULL)          return true;
+        return isSymmetricHelper(root->left,root->right);
+    }
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
