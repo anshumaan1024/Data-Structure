@@ -1,0 +1,48 @@
+// @leetcode : Count Complete Tree Nodes
+
+//-----------------------------------------------------------------------NAIVE----------------------------------------------------------------------------------
+// using DFS,BFS and counting nodes
+
+//---------------------------------------------------------------------OPTIMAL----------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int findLeftHeight( TreeNode* root ){
+
+        int h = 0;
+        while(root!=NULL){
+            h++;
+            root = root->left;
+        }
+
+        return h;
+    }
+
+public:
+    int findRightHeight( TreeNode* root ){
+
+        int h = 0;
+        while(root!=NULL){
+            h++;
+            root = root->right;
+        }
+
+        return h;
+    }
+
+public:
+    int countNodes(TreeNode* root) {
+
+        if(root==NULL)          return 0;
+
+        int lh = findLeftHeight(root);
+        int rh = findRightHeight(root);
+
+        if(lh==rh)          return (1<<rh) - 1;
+
+        return 1 + countNodes(root->left) + countNodes(root->right);
+        
+    }
+};
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
