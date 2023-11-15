@@ -1,0 +1,108 @@
+// @gfg : Burning Tree
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+  public:
+    Node* findTarget(Node* root, int target){
+        
+        queue<Node*> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                
+                Node* curr = q.front();
+                q.pop();
+                
+                if(curr->data==target)          return curr;
+                if(curr->left!=NULL)            q.push(curr->left);
+                if(curr->right!=NULL)           q.push(curr->right);
+                
+            }
+        }
+        
+        return NULL;
+        
+    }
+  
+  public:
+    void childToParentMapping(Node* root, unordered_map<Node*,Node*> &m){
+        
+        queue<Node*> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                
+                Node* curr = q.front();
+                q.pop();
+                
+                if(curr->left!=NULL){
+                    q.push(curr->left);
+                    m[curr->left] = curr;
+                }
+                
+                if(curr->right!=NULL){
+                    q.push(curr->right);
+                    m[curr->right] = curr;
+                }
+                
+            }
+        }
+        
+    }
+    
+  public:
+    int minTime(Node* root, int target) 
+    {
+        Node* x = findTarget(root,target);
+        
+        unordered_map<Node*,Node*> m;
+        childToParentMapping(root,m);
+        
+        queue<Node*> q;
+        q.push(x);
+        unordered_set<Node*> vis;
+        
+        int time = 0;
+        while(!q.empty()){
+            
+            int size = q.size();
+            time++;
+            
+            for(int i=0; i<size; i++){
+                
+                Node* curr = q.front();
+                q.pop();
+                vis.insert(curr);
+                
+                if( curr->left!=NULL && vis.find(curr->left)==vis.end() ){
+                    q.push(curr->left);
+                    vis.insert(curr->left);
+                }
+                
+                if( curr->right!=NULL && vis.find(curr->right)==vis.end() ){
+                    q.push(curr->right);
+                    vis.insert(curr->right);
+                }
+                
+                if( m.count(curr) &&  vis.find(m[curr])==vis.end() ){
+                    q.push(m[curr]);
+                    vis.insert(m[curr]);
+                }
+                
+            }
+            
+        }
+        
+        return time-1;
+        
+    }
+};
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
