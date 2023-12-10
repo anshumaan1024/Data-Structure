@@ -4,6 +4,8 @@
 
 int findCeil(struct Node* root, int input) {
     
+    if(root==NULL)              return -1;
+    
     int ceil = -1;
     while(root!=NULL){
         
