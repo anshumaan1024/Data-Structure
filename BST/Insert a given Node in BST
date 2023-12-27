@@ -1,0 +1,43 @@
+// @leetcode : Insert into a Binary Search Tree
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+
+        TreeNode* temp = new TreeNode(val);
+
+        if(root==NULL)              return temp;
+        
+        TreeNode* curr = root;
+        while(curr!=NULL){
+
+            if( curr->val < val ){
+
+                if(curr->right==NULL){
+                    curr->right = temp; 
+                    break;
+                }
+
+                curr = curr->right;
+            }
+
+            else{
+
+                if( curr->left==NULL ){
+                    curr->left = temp;
+                    break;
+                }
+
+                curr=  curr->left;
+            }
+
+        }
+
+        return root;
+        
+    }
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------
