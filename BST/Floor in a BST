@@ -1,0 +1,31 @@
+// gfg : Floor in BST
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution{
+public:
+    int floor(Node* root, int x) {
+        
+        int floor = -1;
+        Node* curr = root;
+        
+        while(curr!=NULL){
+           
+            if(curr->data==x)       return x;
+          
+            else if( curr->data > x ){
+                curr = curr->left;
+            }
+            
+            else{
+                floor = curr->data;
+                curr = curr->right;
+            }
+        }
+        
+        return floor;
+        
+    }
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
