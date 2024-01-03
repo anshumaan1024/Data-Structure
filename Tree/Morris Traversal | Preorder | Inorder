@@ -49,4 +49,51 @@ public:
 };
 
 //-----------------------------------------------------------PREORDER TRAVERSAL-------------------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+    
+        vector<int> ans;
+        if(root==NULL)          return ans;
+
+        TreeNode* curr = root;
+        while(curr!=NULL){
+
+            if(curr->left!=NULL){
+
+                // going right most node on left subtree
+                TreeNode* temp2 = curr->left;
+                while(temp2->right!=NULL && temp2->right!=curr){
+                    temp2 = temp2->right;
+                }
+
+                // breaking the thread, and going right
+                if(temp2->right==curr){
+                    temp2->right = NULL;
+                    curr = curr->right;
+                }
+
+                // making threads
+                else{
+                    temp2->right =  curr;
+                    ans.push_back(curr->val);
+                    curr = curr->left;
+                }
+
+            
+            }
+
+            else{
+                ans.push_back(curr->val);
+                curr = curr->right;
+            }
+
+        }
+
+        return ans;
+        
+    }
+};
+
 //------------------------------------------------------------------------------------------------------------------------------------------------
