@@ -1,1 +1,65 @@
 // @leetcode : Kth Smallest Element in a BST
+
+//-----------------------------------------------------------------METHOD -1 (NAIVE)---------------------------------------------------------------
+// stores all nodes in vector, and sort them to get required element
+
+//-----------------------------------------------------------------METHOD - 2----------------------------------------------------------------------
+// inorder DFS with counter
+
+//-----------------------------------------------------------------METHOD 3 (OPTIMAL)--------------------------------------------------------------
+// using morris traversal + Inorder traversal
+
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+
+        int ans;
+        int count = 0;
+        TreeNode* curr = root;
+        while(curr!=NULL){
+
+            if(curr->left!=NULL){
+
+                // going right most node on left subtree
+                TreeNode* temp2 = curr->left;
+                while(temp2->right!=NULL && temp2->right!=curr){
+                    temp2 = temp2->right;
+                }
+
+                // breaking the thread, and going right
+                if(temp2->right==curr){
+
+                    temp2->right = NULL;
+
+                    count++;
+                    if(count == k)
+                        ans = curr->val;
+
+                    curr = curr->right;
+                }
+
+                // making threads
+                else{
+                    temp2->right =  curr;
+                    curr = curr->left;
+                }
+
+            
+            }
+
+            else{
+                count++;
+                if(count == k)
+                    ans = curr->val;                
+                     
+                curr = curr->right;
+            }
+
+        }
+
+        return ans;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
