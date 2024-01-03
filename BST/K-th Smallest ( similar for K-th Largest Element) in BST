@@ -6,6 +6,34 @@
 //-----------------------------------------------------------------METHOD - 2----------------------------------------------------------------------
 // inorder DFS with counter
 
+class Solution {
+public:
+    void f(TreeNode* root, int &count, int k, int &ans){
+
+        if(root==NULL)      return;
+
+        f(root->left,count,k,ans);
+
+        count++;
+        if(count==k)
+            ans = root->val;
+
+        f(root->right,count,k,ans);
+
+    }
+
+public:
+    int kthSmallest(TreeNode* root, int k) {
+
+        int ans ;
+        int count = 0;
+        f(root,count,k,ans);
+
+        return ans;
+        
+    }
+};
+
 //-----------------------------------------------------------------METHOD 3 (OPTIMAL)--------------------------------------------------------------
 // using morris traversal + Inorder traversal
 
