@@ -1,0 +1,24 @@
+// @leetcode : Validate Binary Search Tree
+//
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    bool f(TreeNode* root, long min, long max){
+
+        if(root==NULL)      return true;
+        if( root->val >= max || root->val <= min )         return false;
+
+        return f(root->left,min,root->val) && f(root->right,root->val,max);
+
+    }
+
+public:
+    bool isValidBST(TreeNode* root) {
+
+        return f(root,LONG_MIN,LONG_MAX);
+        
+    }
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
