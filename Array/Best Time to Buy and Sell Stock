@@ -1,0 +1,25 @@
+// @leetcode : Best Time to Buy and Sell Stock
+//
+//----------------------------------------------------------------OPTIMAL--------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+
+        int n = prices.size();
+
+        int minn = prices[0];
+        int sum = 0;
+        for(int i=1; i<n; i++){
+
+            sum = max(sum, prices[i] - minn );
+            minn = min(minn, prices[i]);
+
+        }
+
+        return sum;
+        
+    }
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
