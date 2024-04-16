@@ -50,7 +50,53 @@ public:
 
 //--------------------------------------------------------------------BETTER APPRAOCH--------------------------------------------------------------------
 // using merge function
+// TC -> O(N*k*k), SC-> O(1)
 
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+
+        ListNode* small = list1;
+        ListNode* big = list2;
+
+        if (small == NULL)
+            return big;
+        if (big == NULL)
+            return small;
+
+        if (small->val >= big->val)
+            swap(small, big);
+
+        ListNode* head = small;
+
+        while (small != NULL && big != NULL) {
+            ListNode* temp;
+            while (small != NULL && small->val <= big->val) {
+                temp = small;
+                small = small->next;
+            }
+
+            temp->next = big;
+            swap(small, big);
+        }
+
+        return head;
+    }
+
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+
+        if (lists.empty())
+            return NULL;
+
+        ListNode* head = lists[0];
+        for (int i = 1; i < lists.size(); i++) {
+            head = mergeTwoLists(head, lists[i]);
+        }
+
+        return head;
+    }
+};
 
 //-----------------------------------------------------------------OPTIMAL APPROACH 2-------------------------------------------------------------------
 // TC -> O((k*n)*logk) 
