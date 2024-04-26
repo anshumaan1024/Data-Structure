@@ -1,0 +1,64 @@
+// @leetcode : Subsets
+
+//------------------------------------------------------------------------------------------RECURSIVE----------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    void f(int ind, vector<int>& nums, vector<int> ds,
+           vector<vector<int>>& ans) {
+
+        if (ind == nums.size()) {
+            ans.push_back(ds);
+            return;
+        }
+
+        // pick
+        ds.push_back(nums[ind]);
+        f(ind + 1, nums, ds, ans);
+        ds.pop_back();
+
+        // notpick
+        f(ind + 1, nums, ds, ans);
+    }
+
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+
+        vector<vector<int>> ans;
+        vector<int> ds;
+        f(0, nums, ds, ans);
+        return ans;
+    }
+};
+
+//-------------------------------------------------------------------------------------------POWERSET----------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    void f( vector<int> &nums, vector<vector<int>> &ans ){
+
+        int n = nums.size();
+        for( int i = 0; i< (1<<n); i++){
+        
+            vector<int> ds;
+            for( int ind = 0; ind<n; ind++){
+                if( i&(1<<ind))
+                ds.push_back(nums[ind]);
+            }
+            ans.push_back(ds);
+        }
+    }
+
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+
+        vector<vector<int>> ans;
+        f(nums,ans);
+   
+        return ans;
+        
+    }
+
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
